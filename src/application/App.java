@@ -1,8 +1,8 @@
 package application;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -19,7 +19,7 @@ public class App {
 		Locale.setDefault(Locale.US);
 		Scanner scan = new Scanner(System.in);
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
 		Contract contract = new Contract(); 
 		
@@ -30,7 +30,7 @@ public class App {
 		try {
 			System.out.print("Data (dd/MM/yyyy): ");
 			scan.nextLine();
-			Date date = sdf.parse(scan.nextLine());
+			LocalDate date = LocalDate.parse(scan.next(), fmt);
 			System.out.print("Valor do contrato: ");
 			double valueContract = scan.nextDouble();
 			
@@ -42,30 +42,17 @@ public class App {
 			
 			service.processContract(contract, numberInstallment);
 			
-		} catch (ParseException e) {
+		} catch (DateTimeParseException e) {
 
 			System.out.println(e.getMessage());
 		} 
 	
-		
-		
 		System.out.println("Parcelas: ");
 		
 		for (Installment installment: contract.getInstallment()) {
 			
-			System.out.print(sdf.format(installment.getDueDate())+" - " + String.format("%.2f%n", installment.getAmount()));
-			
+			System.out.println(installment);
 		}
-		
-		
-	
-		System.out.println();
-		
 		scan.close();
-		
-		
-		
-		
 	}
-
 }
