@@ -32,8 +32,7 @@ public class ContractService {
 			calendar.add(calendar.MONTH, i);
 			Date newDate = calendar.getTime();
 			
-			installment.add(new Installment(newDate, paymentFee));
+			contract.getInstallment().add(new Installment(newDate, paymentFee));
 		}
-		contract.setInstallment(installment);
 	}
 }
